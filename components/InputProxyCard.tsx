@@ -67,7 +67,7 @@ export default function InputProxyCard() {
       </CardHeader>
       <CardContent>
         <Textarea
-          className="w-full h-32"
+          className="w-full h-64"
           placeholder=" thêm mỗi dòng là 1 proxy , ví dụ: 127.0.0.1:8080, 127.0.0.1:8081:username:password"
           value={inputProxies}
           onChange={handleInputChange}

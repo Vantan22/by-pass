@@ -30,7 +30,7 @@ const ProxyCard: React.FC<ProxyCardProps> = ({
       </CardHeader>
       <CardContent>
         <Textarea
-          className="w-full h-24"
+          className="w-full h-64"
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}

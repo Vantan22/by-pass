@@ -33,7 +33,7 @@ export default function WhiteList() {
       </CardHeader>
       <CardContent>
         <Textarea
-          className="w-full h-32"
+          className="w-full h-64"
           placeholder="Enter your whitelist items..."
           value={whiteList}
           onChange={(e) => setWhiteList(e.target.value)}
