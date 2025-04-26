@@ -5,6 +5,7 @@ import InputProxyCard from "@/components/InputProxyCard";
 import ProxyCard from "@/components/ProxyCard";
 import WhiteList from "@/components/WhiteList";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Home() {
   const [resourceProxies, setResourceProxies] = useState("");
@@ -13,11 +14,12 @@ export default function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [resourceResponse, domainResponse, outputResponse] = await Promise.all([
-        fetch("/api/resource"),
-        fetch("/api/rules"),
-        fetch("/api/output"),
-      ]);
+      const [resourceResponse, domainResponse, outputResponse] =
+        await Promise.all([
+          fetch("/api/resource"),
+          fetch("/api/rules"),
+          fetch("/api/output"),
+        ]);
 
       const resourceData = await resourceResponse.json();
       const domainData = await domainResponse.json();
@@ -31,7 +33,7 @@ export default function Home() {
   }, []);
 
   const handleSaveResourceProxy = async () => {
-    await fetch("/api/resource", {
+    const response = await fetch("/api/resource", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -40,9 +42,14 @@ export default function Home() {
         newData: resourceProxies,
       }),
     });
+    if (response.ok) {
+      toast.success("Resource proxy saved successfully");
+    } else {
+      toast.error("Error saving resource proxy");
+    }
   };
   const handleSaveDomainRules = async () => {
-    await fetch("/api/rules", {
+    const response = await fetch("/api/rules", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -51,9 +58,14 @@ export default function Home() {
         newData: domainRules,
       }),
     });
+    if (response.ok) {
+      toast.success("Domain rules saved successfully");
+    } else {
+      toast.error("Error saving domain rules");
+    }
   };
   const handleSaveOutputProxy = async () => {
-    await fetch("/api/output", {
+    const response = await fetch("/api/output", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -62,15 +74,21 @@ export default function Home() {
         newData: outputProxies,
       }),
     });
+    if (response.ok) {
+      toast.success("Output proxy saved successfully");
+    } else {
+      toast.error("Error saving output proxy");
+    }
   };
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-screen p-8 bg-gray-200">
-        <WhiteList />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-gray-200">
+        <WhiteList className="col-span-1 w-full" />
 
-        <ConfigProxyCard />
-        <InputProxyCard />
+        <ConfigProxyCard className="col-span-1 w-full" />
+        <InputProxyCard className="col-span-1 w-full" />
         <ProxyCard
+          className="col-span-1 w-full"
           title="Resource Proxy"
           value={resourceProxies}
           placeholder="Enter Resource Proxy..."
@@ -78,6 +96,7 @@ export default function Home() {
           onSave={handleSaveResourceProxy}
         />
         <ProxyCard
+          className="col-span-1 w-full"
           title="Domain Rules"
           value={domainRules}
           placeholder="Enter Domain Rules..."
@@ -85,6 +104,7 @@ export default function Home() {
           onSave={handleSaveDomainRules}
         />
         <ProxyCard
+          className="col-span-1 w-full"
           title="Output Proxy"
           value={outputProxies}
           placeholder="Enter Output Proxy..."

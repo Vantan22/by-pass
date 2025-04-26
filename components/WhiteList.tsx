@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -8,26 +9,34 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Textarea } from "./ui/textarea";
-
-export default function WhiteList() {
+import { cn } from "@/lib/utils";
+export default function WhiteList({ className }: { className?: string }) {
   const [whiteList, setWhiteList] = useState("");
   const handleSaveWhiteList = async () => {
     const response = await fetch("/api/white-list", {
       method: "POST",
       body: JSON.stringify({ items: whiteList }),
     });
-    console.log(response);
+    if (response.ok) {
+      toast.success("Whitelist saved successfully");
+    } else {
+      toast.error("Error saving whitelist");
+    }
   };
   const handleGetWhiteList = async () => {
     const response = await fetch("/api/white-list");
-    const data = await response.json();
-    setWhiteList(data.items.join("\n"));
+    if (response.ok) {
+      const data = await response.json();
+      setWhiteList(data.items.join("\n"));
+    } else {
+      toast.error("Error getting whitelist");
+    }
   };
   useEffect(() => {
     handleGetWhiteList();
   }, []);
   return (
-    <Card className="col-span-1">
+    <Card className={cn("col-span-1", className)}>
       <CardHeader>
         <CardTitle>Whitelist</CardTitle>
       </CardHeader>
@@ -41,7 +50,7 @@ export default function WhiteList() {
       </CardContent>
       <CardFooter>
         <Button size="lg" onClick={handleSaveWhiteList}>
-          Lưu danh sách trắng
+          Lưu
         </Button>
       </CardFooter>
     </Card>

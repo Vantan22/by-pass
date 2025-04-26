@@ -10,8 +10,9 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Textarea } from "./ui/textarea";
-
-export default function InputProxyCard() {
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+export default function InputProxyCard({ className }: { className?: string }    ) {
   const [inputProxies, setInputProxies] = useState("");
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const handleFileSelect = async (file: string) => {
@@ -46,10 +47,10 @@ export default function InputProxyCard() {
     });
 
     if (response.ok) {
-      console.log("Data updated successfully");
+      toast.success("Data updated successfully");
     } else {
       const errorData = await response.json();
-      console.error("Error updating data:", errorData.error);
+      toast.error("Error updating data:", errorData.error);
     }
   };
 
@@ -59,11 +60,10 @@ export default function InputProxyCard() {
   };
 
   return (
-    <Card className="col-span-1">
+    <Card className={cn("col-span-1", className)}>
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>Input Proxy</CardTitle>
         <FileSelect onFilesSelected={handleFileSelect} />{" "}
-        {/* Pass selectedFile to FileSelect */}
       </CardHeader>
       <CardContent>
         <Textarea

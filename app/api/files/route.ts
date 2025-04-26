@@ -75,7 +75,12 @@ export async function DELETE(request: Request) {
     );
   }
 
-  const filePath = path.join(directoryPath, fileName);
+  const filePath = path.join(directoryPath, fileName + ".txt");
+
+  // Check if the file exists before attempting to delete
+  if (!fs.existsSync(filePath)) {
+    return NextResponse.json({ error: "File does not exist" }, { status: 404 });
+  }
 
   try {
     fs.unlinkSync(filePath); // Delete the file
@@ -83,7 +88,10 @@ export async function DELETE(request: Request) {
       { message: "File deleted successfully" },
       { status: 200 }
     );
-  } catch {
-    return NextResponse.json({ error: "Error deleting file" }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: `Error deleting file: ${error}` },
+      { status: 500 }
+    );
   }
 }

@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 interface ProxyCardProps {
   title: string;
@@ -14,6 +15,7 @@ interface ProxyCardProps {
   placeholder: string;
   onChange: (value: string) => void;
   onSave: () => void;
+  className?: string;
 }
 
 const ProxyCard: React.FC<ProxyCardProps> = ({
@@ -22,9 +24,10 @@ const ProxyCard: React.FC<ProxyCardProps> = ({
   placeholder,
   onChange,
   onSave,
+  className,
 }) => {
   return (
-    <Card className="col-span-1">
+    <Card className={cn("col-span-1", className)}>
       <CardHeader className="flex flex-row justify-between">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
