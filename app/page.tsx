@@ -4,13 +4,27 @@ import FileTable from "@/components/FileTable";
 import InputProxyCard from "@/components/InputProxyCard";
 import ProxyCard from "@/components/ProxyCard";
 import WhiteList from "@/components/WhiteList";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function Home() {
+  const router = useRouter();
   const [resourceProxies, setResourceProxies] = useState("");
   const [domainRules, setDomainRules] = useState("");
   const [outputProxies, setOutputProxies] = useState("");
+
+  useEffect(() => {
+    const storedUsername = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("by_pass_local="))
+      ?.split("=")[1];
+
+    // Check if user is logged in based on session storage
+    if (!storedUsername) {
+      router.push("/login");
+    }
+  }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,11 +94,11 @@ export default function Home() {
       toast.error("Error saving output proxy");
     }
   };
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8 bg-gray-200">
         <WhiteList className="col-span-1 w-full" />
-
         <ConfigProxyCard className="col-span-1 w-full" />
         <InputProxyCard className="col-span-1 w-full" />
         <ProxyCard
