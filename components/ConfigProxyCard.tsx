@@ -1,4 +1,5 @@
 "use client";
+import config from "@/files/configs/config.json";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -46,6 +47,14 @@ export default function ConfigProxyCard({ className }: { className?: string }) {
             <CardTitle className="text-lg md:text-xl">
               Danh sách cấu hình
             </CardTitle>
+            <div className="flex items-center">
+              <CardTitle className="text-sm md:text-base mr-2">
+                File input đang dùng:
+              </CardTitle>
+              <span className="font-semibold text-blue-500">
+                {config.inputFile}
+              </span>
+            </div>
           </CardHeader>
           <CardContent>
             <FileSelect onFilesSelected={handleFileSelect} />
