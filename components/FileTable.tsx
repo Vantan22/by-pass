@@ -32,7 +32,9 @@ const FileTable = () => {
   const fetchFiles = async () => {
     const response = await fetch("/api/files");
     const data = await response.json();
-    setFiles(data.map((file: string) => file.split(".").slice(0, -1).join("."))); // Remove file extension
+    setFiles(
+      data.map((file: string) => file.split(".").slice(0, -1).join("."))
+    ); // Remove file extension
   };
 
   const handleAddFile = async () => {
@@ -96,8 +98,15 @@ const FileTable = () => {
 
   return (
     <Card className="col-span-2">
-      <CardHeader>
+      <CardHeader className="flex flex-row justify-between">
         <CardTitle>Danh sách Files</CardTitle>
+        <Button
+          size="lg"
+          variant="outline"
+          onClick={() => setIsAddDialogOpen(true)}
+        >
+          Thêm file
+        </Button>
       </CardHeader>
       <CardContent>
         <Card className="min-w-full p-4">
@@ -140,14 +149,6 @@ const FileTable = () => {
             </TableBody>
           </Table>
         </Card>
-        <Button
-          size="lg"
-          variant="outline"
-          className="mt-4"
-          onClick={() => setIsAddDialogOpen(true)}
-        >
-          Thêm file
-        </Button>
       </CardContent>
 
       {/* Dialog for adding a new file */}
@@ -174,9 +175,7 @@ const FileTable = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent>
           <DialogTitle>Edit File Name</DialogTitle>
-          <DialogDescription>
-            Nhập tên file mới
-          </DialogDescription>
+          <DialogDescription>Nhập tên file mới</DialogDescription>
           <Input
             type="text"
             value={newFileName}

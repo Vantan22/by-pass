@@ -1,0 +1,6 @@
+{
+  "inputFile": "aaaa213123233232ddd.txt",
+  "domainFile": "rules.txt",
+  "resourceFile": "resource_proxy.txt",
+  "outputFile": "output_proxy.txt"
+}

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     const files = fs.readdirSync(directoryPath);
-    const txtFiles = files.filter(file => file.endsWith('.txt')); // Filter to only include .txt files
+    const txtFiles = files.filter((file) => file.endsWith(".txt")); // Filter to only include .txt files
     return NextResponse.json(txtFiles);
   } catch {
     return NextResponse.json(
